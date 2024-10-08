@@ -8,11 +8,12 @@ import android.database.sqlite.SQLiteOpenHelper
 class DB(val context: Context) : SQLiteOpenHelper(context, DB_NAME,null, DB_VERSION){
 
     override fun onCreate(db: SQLiteDatabase) {
-        onCreate(db)
+
+        db.execSQL(SqlTable.admin)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        onCreate(db)
+
     }
 
     fun executeQuery(sql:String):Boolean {
