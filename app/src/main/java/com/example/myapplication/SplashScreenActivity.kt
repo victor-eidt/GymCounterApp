@@ -14,6 +14,7 @@ import com.example.myapplication.activity.HomeActivity
 import com.example.myapplication.activity.LoginActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.global.DB
+import com.example.myapplication.manager.SessionManager
 import com.google.android.gms.cast.framework.SessionManager
 import com.google.android.gms.cast.framework.zzao
 import com.google.android.gms.cast.framework.zzay

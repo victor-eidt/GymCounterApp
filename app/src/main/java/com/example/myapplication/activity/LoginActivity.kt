@@ -11,11 +11,12 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.global.DB
+import com.example.myapplication.manager.SessionManager
 import com.google.android.gms.cast.framework.SessionManager
 
 class LoginActivity : AppCompatActivity() {
     var db:DB?=null
-    var session:SessionManager?=null
+    var session: SessionManager?=null
     var edtUserName : EditText?=null
     var edtPassWord : EditText?=null
     lateinit var binding: ActivityLoginBinding
