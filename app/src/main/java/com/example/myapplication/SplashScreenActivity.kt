@@ -2,25 +2,21 @@ package com.example.myapplication
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.media.session.MediaSessionManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
-import android.view.inputmethod.InputBinding
 import androidx.appcompat.app.AppCompatActivity
 import com.example.myapplication.activity.HomeActivity
 import com.example.myapplication.activity.LoginActivity
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.example.myapplication.global.DB
 import com.example.myapplication.manager.SessionManager
-import com.google.android.gms.cast.framework.SessionManager
 import com.google.android.gms.cast.framework.zzao
 import com.google.android.gms.cast.framework.zzay
 import com.google.android.gms.cast.framework.zzba
 import com.google.android.gms.dynamic.IObjectWrapper
-import kotlin.math.log
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity(), zzay {
@@ -31,15 +27,35 @@ class SplashScreenActivity : AppCompatActivity(), zzay {
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
-        db = DB(this)
-        session = SessionManager(this)
+        // Check if the Android version is 12 or higher
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
+            // System handles the splash screen, continue to your next activity
+            navigateToNextScreen()
+        } else {
+            // For Android versions below 12, show your custom splash screen
+            binding = ActivityMainBinding.inflate(layoutInflater)
+            setContentView(binding.root)
 
-        insertAdminData()
-        mDelayHandler = Handler()
-        mDelayHandler?.postDelayed(mRunnable, splashDelay)
+            db = DB(this)
+            session = SessionManager(this)
+
+            insertAdminData()
+            mDelayHandler = Handler(Looper.getMainLooper())
+            mDelayHandler?.postDelayed(mRunnable, splashDelay)
+        }
+    }
+
+    private fun navigateToNextScreen() {
+        if (session?.isLoggedIn == true) {
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun SessionManager(activity: zzay): SessionManager {

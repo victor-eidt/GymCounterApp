@@ -12,7 +12,6 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityLoginBinding
 import com.example.myapplication.global.DB
 import com.example.myapplication.manager.SessionManager
-import com.google.android.gms.cast.framework.SessionManager
 
 class LoginActivity : AppCompatActivity() {
     var db:DB?=null
@@ -52,29 +51,30 @@ class LoginActivity : AppCompatActivity() {
     private fun getLogin(){
         try {
 
-            val sqlQuery = "SELECT * FROM ADMIN WHERE USER_NAME='"+edtUserName?.text.toString().trim()+"' AND PASSWORD='"+edtPassWord?.text.toString().trim()+"' AND='1'"
-            if (it.count>0){
-                session?.setLogin(true)
-                Toast.makeText(this,"Login Bem Sucedido")
-                val intent = Intent(this,HomeActivity::class.java)
-                startActivity(intent)
-                finish()
-            }else{
-                session?.setLogin(False)
-                Toast.makeText(this,"Falha ao logar")
+            val sqlQuery = "SELECT * FROM ADMIN WHERE USER_NAME='"+edtUserName?.text.toString().trim()+ "' " + "AND PASSWORD='"+edtPassWord?.text.toString().trim()+"' AND='1'"
+            db?.fireQuery(sqlQuery)?.use {
+                if (it.count > 0) {
+                    session?.setLogin(true)
+                    Toast.makeText(this, "Login Bem Sucedido", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    session?.setLogin(false)
+                    Toast.makeText(this, "Falha ao logar", Toast.LENGTH_LONG).show()
+                }
             }
-        }catch (e:Exception){
-            e.printStackTrace()
-        }
+            }catch (e:Exception){
+                e.printStackTrace()
+            }
 
-    }
 
     private fun validateLogin():Boolean{
         if(edtUserName?.text.toString().trim().isEmpty()){
-            Toast.makeText(this,"Digite o usuario",Toast.LENGHT_LONG).show()
+            Toast.makeText(this,"Digite o usuario",Toast.LENGTH_LONG).show()
             return false
         }else if (edtPassWord?.text.toString().trim().isEmpty()){
-            Toast.makeText(this,"Digite a senha",Toast.LENGHT_LONG).show()
+            Toast.makeText(this,"Digite a senha",Toast.LENGTH_LONG).show()
         }
     }
 }

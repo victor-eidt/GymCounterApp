@@ -14,7 +14,7 @@ import com.google.android.gms.cast.framework.SessionManager
 
 class HomeActivity : AppCompatActivity() {
     private val TAG="homeActivity"
-    var session:SessionManager?
+    var session:SessionManager? = null
     lateinit var  binding:ActivityHomeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,4 +25,3 @@ class HomeActivity : AppCompatActivity() {
 
         }
     }
-}
