@@ -18,7 +18,6 @@ import com.google.android.gms.cast.framework.zzay
 import com.google.android.gms.cast.framework.zzba
 import com.google.android.gms.dynamic.IObjectWrapper
 
-@SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity(), zzay {
     private var mDelayHandler: Handler? = null
     private val splashDelay: Long = 3000 // 3 segundos

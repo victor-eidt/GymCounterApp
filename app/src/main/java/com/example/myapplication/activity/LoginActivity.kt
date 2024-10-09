@@ -35,6 +35,17 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
+        fun validateLogin():Boolean {
+            if (edtUserName?.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "Digite o usuario", Toast.LENGTH_LONG).show()
+                return false
+            } else if (edtPassWord?.text.toString().trim().isEmpty()) {
+                Toast.makeText(this, "Digite a senha", Toast.LENGTH_LONG).show()
+                return true
+            }
+            return true
+        }
+
         binding.txtForgotPassaword.setOnClickListener {
             if (validateLogin()){
                 getLogin()
@@ -67,14 +78,5 @@ class LoginActivity : AppCompatActivity() {
             }catch (e:Exception){
                 e.printStackTrace()
             }
-
-
-    private fun validateLogin():Boolean{
-        if(edtUserName?.text.toString().trim().isEmpty()){
-            Toast.makeText(this,"Digite o usuario",Toast.LENGTH_LONG).show()
-            return false
-        }else if (edtPassWord?.text.toString().trim().isEmpty()){
-            Toast.makeText(this,"Digite a senha",Toast.LENGTH_LONG).show()
         }
-    }
 }

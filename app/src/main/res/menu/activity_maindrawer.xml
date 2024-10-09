@@ -26,7 +26,7 @@
                 android:title="@string/change_password_mobile"
                 android:icon="@drawable/ic_setting"/>
 
-            <item android:id="nav_log_out"
+            <item android:id="@+id/nav_log_out"
                 android:icon="@drawable/ic_log_out"
                 android:title="@string/log_out"/>
 
