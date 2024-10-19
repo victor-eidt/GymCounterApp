@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here -->
+        <item name="colorPrimary">@color/red</item>
+        <item name="colorPrimaryDark">@color/maroon</item>
+        <item name="colorAccent">@color/gray</item>
+    </style>
+
+    <style name="SplashTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/gym</item> <!-- Use uma cor ou drawable para o fundo -->
+    </style>
+
+</resources>
