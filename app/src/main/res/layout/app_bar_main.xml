@@ -19,7 +19,7 @@
             android:id="@+id/toolbar"
             android:minHeight="?actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/Theme.AppCompat.Light"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:background="@color/blue"/>
         
     </com.google.android.material.appbar.AppBarLayout>
