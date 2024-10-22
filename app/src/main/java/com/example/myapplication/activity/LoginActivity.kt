@@ -62,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
     private fun getLogin(){
         try {
 
-            val sqlQuery = "SELECT * FROM ADMIN WHERE USER_NAME='"+edtUserName?.text.toString().trim()+ "' " + "AND PASSWORD='"+edtPassWord?.text.toString().trim()+"' AND='1'"
+            val sqlQuery = "SELECT * FROM ADMIN WHERE USER_NAME='"+edtUserName?.text.toString().trim()+ "' " + "AND PASSWORD='"+edtPassWord?.text.toString().trim()+"' AND ID='1'"
             db?.fireQuery(sqlQuery)?.use {
                 if (it.count > 0) {
                     session?.setLogin(true)

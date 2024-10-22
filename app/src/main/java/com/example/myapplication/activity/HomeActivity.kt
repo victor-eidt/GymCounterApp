@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.renderscript.ScriptGroup.Binding
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -79,6 +80,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
+
+        if (item?.itemId == R.id.logOutMenu){
+            logOut()
+        }
+
         return super.onOptionsItemSelected(item)
     }
 
@@ -162,6 +168,18 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var fragmentManager: FragmentManager?=null
         fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction().replace(R.id.frame_container,fragment,"Home").commit()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        try {
+            val inflater = menuInflater
+            inflater.inflate(R.menu.menu_main,menu)
+
+        }catch (e:Exception){
+            e.printStackTrace()
+        }
+
+        return super.onCreateOptionsMenu(menu)
     }
 
 }
