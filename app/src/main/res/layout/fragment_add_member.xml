@@ -173,6 +173,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:hint="Data de entrada"
+                        android:id="@+id/edtJoining"
                         android:layout_weight="1"
                         android:textSize="15sp"
                         android:textColor="@color/black"
@@ -202,7 +203,7 @@
                         android:textSize="16sp"
                         android:layout_weight="0.7"
                         android:textColor="@color/black"/>
-                    
+
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -212,7 +213,90 @@
                         style="@style/Widget.AppCompat.Spinner.Underlined"
                         android:entries="@array/membership"/>
                 </LinearLayout>
-                
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Expire On : "
+                        android:textSize="16sp"
+                        android:layout_weight="0.7"
+                        android:textColor="@color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:inputType="date"
+                        android:enabled="false"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:id="@+id/edtExpire"
+                        tools:ignore="Autofill,LabelFor" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Discount (%) : "
+                        android:textSize="16sp"
+                        android:layout_weight="0.7"
+                        android:textColor="@color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:inputType="numberDecimal"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:id="@+id/edtDiscount"
+                        tools:ignore="Autofill,LabelFor" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Total : "
+                        android:textSize="16sp"
+                        android:layout_weight="0.7"
+                        android:textColor="@color/black"
+                        tools:ignore="HardcodedText" />
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.3"
+                        android:inputType="numberDecimal"
+                        android:textSize="15sp"
+                        android:textColor="@color/black"
+                        android:id="@+id/edtAmount"
+                        tools:ignore="Autofill,LabelFor"
+                        android:text="0.00"
+                        android:gravity="end" />
+                </LinearLayout>
+
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
