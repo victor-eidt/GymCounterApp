@@ -2,6 +2,7 @@ package com.example.myapplication.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -14,11 +15,22 @@ import com.example.myapplication.global.DB
 import com.example.myapplication.manager.SessionManager
 
 class LoginActivity : AppCompatActivity() {
-    var db:DB?=null
-    var session: SessionManager?=null
-    var edtUserName : EditText?=null
-    var edtPassWord : EditText?=null
+    var db: DB? = null
+    var session: SessionManager? = null
+    var edtUserName: EditText? = null
+    var edtPassWord: EditText? = null
     lateinit var binding: ActivityLoginBinding
+
+    fun validateLogin(): Boolean {
+        if (edtUserName?.text.toString().trim().isEmpty()) {
+            Toast.makeText(this, "Digite o usuario", Toast.LENGTH_LONG).show()
+            return false
+        } else if (edtPassWord?.text.toString().trim().isEmpty()) {
+            Toast.makeText(this, "Digite a senha", Toast.LENGTH_LONG).show()
+            return true
+        }
+        return true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,22 +44,13 @@ class LoginActivity : AppCompatActivity() {
         edtPassWord = binding.edtPassword
 
         binding.btnLogin.setOnClickListener {
-
-        }
-
-        fun validateLogin():Boolean {
-            if (edtUserName?.text.toString().trim().isEmpty()) {
-                Toast.makeText(this, "Digite o usuario", Toast.LENGTH_LONG).show()
-                return false
-            } else if (edtPassWord?.text.toString().trim().isEmpty()) {
-                Toast.makeText(this, "Digite a senha", Toast.LENGTH_LONG).show()
-                return true
+            if (validateLogin()) {
+                getLogin()  // Chama a função para verificar o login
             }
-            return true
         }
 
         binding.txtForgotPassaword.setOnClickListener {
-            if (validateLogin()){
+            if (validateLogin()) {
                 getLogin()
             }
 
@@ -59,24 +62,40 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
     }
-    private fun getLogin(){
-        try {
 
-            val sqlQuery = "SELECT * FROM ADMIN WHERE USER_NAME='"+edtUserName?.text.toString().trim()+ "' " + "AND PASSWORD='"+edtPassWord?.text.toString().trim()+"' AND ID='1'"
-            db?.fireQuery(sqlQuery)?.use {
-                if (it.count > 0) {
+    private fun getLogin() {
+        try {
+            val userName = edtUserName?.text.toString().trim()
+            val password = edtPassWord?.text.toString().trim()
+
+            // Adicionando logs para verificar os valores
+            Log.d("LoginActivity", "Tentando login com: $userName / $password")
+
+            // Removendo a condição de ID e ajustando a consulta
+            val sqlQuery =
+                "SELECT * FROM ADMIN WHERE USER_NAME='$userName' AND PASSWORD='$password'"
+
+            // Adicionando um log para verificar a query
+            Log.d("LoginActivity", "Query SQL: $sqlQuery")
+
+            db?.fireQuery(sqlQuery)?.use { cursor ->
+                if (cursor.count > 0) {
+                    Log.d("LoginActivity", "Login bem-sucedido")
                     session?.setLogin(true)
                     Toast.makeText(this, "Login Bem Sucedido", Toast.LENGTH_LONG).show()
                     val intent = Intent(this, HomeActivity::class.java)
                     startActivity(intent)
                     finish()
                 } else {
+                    Log.d("LoginActivity", "Falha no login")
                     session?.setLogin(false)
                     Toast.makeText(this, "Falha ao logar", Toast.LENGTH_LONG).show()
                 }
             }
-            }catch (e:Exception){
-                e.printStackTrace()
-            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.e("LoginActivity", "Erro durante o login: ${e.message}")
+            Toast.makeText(this, "Erro ao tentar logar", Toast.LENGTH_LONG).show()
         }
+    }
 }

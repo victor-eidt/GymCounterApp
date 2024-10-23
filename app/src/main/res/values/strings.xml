@@ -1,18 +1,26 @@
 <resources>
     <string name="app_name">My Application</string>
-    <string name="home">Home</string>
-    <string name="add_member">Add Member</string>
-    <string name="fee_pending">Fee Pending</string>
-    <string name="setting">Setting</string>
-    <string name="add_update_fee">Add/Update Fee</string>
-    <string name="change_password_mobile">Change password mobile</string>
+    <string name="home">Início</string>
+    <string name="add_member">Adicionar Membro</string>
+    <string name="fee_pending">Taxa pendente</string>
+    <string name="setting">Configuração</string>
+    <string name="add_update_fee">Adicionar/Atualizar taxa</string>
+    <string name="change_password_mobile">Mudar a senha</string>
     <string name="log_out">Log Out</string>
+    <string name="gym_membership_price">Preço da Assinatura</string>
 
     <string name="navigation_drawer_open">Open</string>
     <string name="navigation_drawer_Closed">Closed</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="salvar">Salvar</string>
+    <string name="save" />
+    <string name="_1_month_fee">1 Mês</string>
+    <string name="_0_00">0.00</string>
+    <string name="_3_months">3 Meses</string>
+    <string name="_6_months">6 Meses</string>
+    <string name="_1_year">1 Ano</string>
+    <string name="_3_years">3 Anos</string>
 
     <string-array name="membership">
         <item>Select</item>

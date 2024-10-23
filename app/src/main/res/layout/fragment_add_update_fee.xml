@@ -5,10 +5,128 @@
     android:layout_height="match_parent"
     tools:context="fragment.FragmentAddUpdateFee">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Fragment Add Update "/>
+        android:orientation="vertical"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/gym_membership_price"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_margin="5dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_1_month_fee"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/_0_00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtOneMonth"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_3_months"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/_0_00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtThreeMonth"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_6_months"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/_0_00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtSixMonth"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_1_year"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/_0_00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtOneYear"
+            tools:ignore="Autofill"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/_3_years"
+            android:layout_marginTop="15dp"
+            android:textSize="16sp"
+            android:textColor="@color/black"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/_0_00"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/black"
+            android:inputType="numberDecimal"
+            android:textSize="15sp"
+            android:id="@+id/edtThreeYear"
+            tools:ignore="Autofill"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="@string/salvar"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@color/red"
+            android:textColor="@color/white"
+            android:layout_margin="15dp"
+            android:id="@+id/btnAddMembership"/>
+
+    </LinearLayout>
+
 
 </RelativeLayout>
