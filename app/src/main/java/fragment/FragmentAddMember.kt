@@ -2,15 +2,19 @@ package com.techplus.gymmanagement.fragment
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.myapplication.databinding.FragmentAddMemberBinding
 import com.example.myapplication.global.DB
+import com.example.myapplication.global.MyFunction
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -47,36 +51,36 @@ class FragmentAddMember : Fragment() {
             binding.edtJoining.setText(sdf.format(cal.time))
         }
 
-        binding.imgDate.setOnClickListener {
+        binding.imgPicDate.setOnClickListener {
             activity?.let { it1 ->
                 DatePickerDialog(it1, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
             }
         }
 
-        binding.spMemberShip.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+        binding.spMembership.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val value = parent.getItemAtPosition(position).toString().trim()
 
                 if (value == "Select") {
                     binding.edtExpire.setText("")
-                    calculateTotal(binding.spMemberShip,binding.edtDiscount,binding.edtAmount)
+                    calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount)
                 } else {
                     if (binding.edtJoining.text.toString().trim().isNotEmpty()) {
                         when (value) {
                             "1 Month" -> calculateExpireDate(1, binding.edtExpire)
-                            calculateTotal(binding.spMemberShip,binding.edtDiscount,binding.edtAmount)
+                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
                                 "3 Months" -> calculateExpireDate(3, binding.edtExpire)
-                            calculateTotal(binding.spMemberShip,binding.edtDiscount,binding.edtAmount)
+                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
                                 "6 Months" -> calculateExpireDate(6, binding.edtExpire)
-                            calculateTotal(binding.spMemberShip,binding.edtDiscount,binding.edtAmount)
+                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
                                 "1 Year" -> calculateExpireDate(12, binding.edtExpire)
-                            calculateTotal(binding.spMemberShip,binding.edtDiscount,binding.edtAmount)
+                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
                                 "3 Years" -> calculateExpireDate(36, binding.edtExpire)
-                            calculateTotal(binding.spMemberShip,binding.edtDiscount,binding.edtAmount)
+                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
                         }
                     } else {
                         showToast("Select Joining date first")
-                        binding.spMemberShip.setSelection(0)
+                        binding.spMembership.setSelection(0)
                     }
                 }
             }
@@ -86,7 +90,7 @@ class FragmentAddMember : Fragment() {
             }
         }
 
-        binding.edtDiscount.addTextChangedListener(object : TexWatcher{
+        binding.edtDiscount.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int){
 
             }
@@ -95,22 +99,22 @@ class FragmentAddMember : Fragment() {
 
             }
 
-            override fun afterTextChanged(p0: Edittable?){
+            override fun afterTextChanged(p0: Editable?){
                 if(p0!=null){
-                    calculateTotal(binding.spMembemShip,binding.edtDiscount,binding.edtAmount)
+                    calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount)
                 }
             }
 
         })
 
-        binding.imgPicDate.setOnclickListener{
-            activity?.Let{ it1 -> DatePickerDialog(it1,dateSetListener,
+        binding.imgPicDate.setOnClickListener(){
+            activity?.let { it1 -> DatePickerDialog(it1,dateSetListener,
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),
             cal.get(Calendar.DAY_OF_MONTH)).show()}
         }
 
-        binding.imgTakeImage.setOnclickListener{
+        binding.imgTakeImage.setOnClickListener(){
 
         }
 
@@ -127,14 +131,14 @@ class FragmentAddMember : Fragment() {
                     threeYear = MyFunction.getValue(it,"THREE_YEAR")
                 }
 
-        }catch (e:Expection){
+        }catch (e:Exception){
             e.printStackTrace()
         }
     }
-    private fun calculateTotal(spMember:Spinner,edtDis:EditText,edtAmt:EditText){
-        val month = spMember.seLectedItem.tostring().trim()
+    private fun calculateTotal(spMember: Spinner, edtDis:EditText, edtAmt:EditText){
+        val month = spMember.selectedItem.toString().trim()
         var discount = edtDis.text.toString().trim()
-        if(edtDis.text.ToString().tostring().isEmpty()){
+        if(edtDis.text.toString().toString().isEmpty()){
             discount = "0"
         }
 
@@ -156,9 +160,9 @@ class FragmentAddMember : Fragment() {
             if(discount.trim().isEmpty()){
                 discount = "0"
             }
-            if(ThreeeMonths!!.trim().isNotEmpty()){
-                val discountAmount = ((ThreeeMonths!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
-                val total = ThreeeMonths!!.toDouble() - discountAmount  // Minus discount amount from main amount
+            if(threeMonths!!.trim().isNotEmpty()){
+                val discountAmount = ((threeMonths!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
+                val total = threeMonths!!.toDouble() - discountAmount  // Minus discount amount from main amount
                 edtAmt.setText(total.toString())
 
             }
@@ -168,7 +172,7 @@ class FragmentAddMember : Fragment() {
             if(discount.trim().isEmpty()){
                 discount = "0"
             }
-            if(SixMonths!!.trim().isNotEmpty()){
+            if(sixMonths!!.trim().isNotEmpty()){
                 val discountAmount = ((sixMonths!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
                 val total = sixMonths!!.toDouble() - discountAmount  // Minus discount amount from main amount
                 edtAmt.setText(total.toString())
@@ -192,9 +196,9 @@ class FragmentAddMember : Fragment() {
             if(discount.trim().isEmpty()){
                 discount = "0"
             }
-            if(threeYears!!.trim().isNotEmpty()){
-                val discountAmount = ((threeYears!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
-                val total = threeYears!!.toDouble() - discountAmount  // Minus discount amount from main amount
+            if(threeYear!!.trim().isNotEmpty()){
+                val discountAmount = ((threeYear!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
+                val total = threeYear!!.toDouble() - discountAmount  // Minus discount amount from main amount
                 edtAmt.setText(total.toString())
 
             }
@@ -226,10 +230,10 @@ class FragmentAddMember : Fragment() {
         val Items:Array<CharSequence>
         try {
 
-            items = arrayOf("Take Photo", "Chosse Image", "Cancel")
-            val builder = amdroid.app.AlertDialog.Builder(acticity)
+            val items = arrayOf("Take Photo", "Chosse Image", "Cancel")
+            val builder = android.app.AlertDialog.Builder(activity)
             builder.setTitle("Select Image")
-            builder.setItems(itens),DialogInterface.OnClickListener{dialogInterface. i ->
+            builder.setItems(items),DialogInterface.OnClickListener{dialogInterface. i ->
 
                 if (items[i] == "Take Photo"){
                 }
@@ -238,7 +242,7 @@ class FragmentAddMember : Fragment() {
             }
 
         }catch (e:Exception){
-            e.printStackTrace
+            e.printStackTrace()
         }
     }
 }
