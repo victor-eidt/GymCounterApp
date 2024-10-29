@@ -1,8 +1,10 @@
 package com.techplus.gymmanagement.fragment
 
 import android.Manifest
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -32,6 +34,8 @@ class FragmentAddMember : Fragment() {
     private var threeYear: String? = ""
     private lateinit var binding: FragmentAddMemberBinding
     private var captureImage:CaptureImage?=null
+    private val REQUEST_CAMERA =1234
+    private val REQUEST_GALLERY = 5464
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -180,6 +184,7 @@ class FragmentAddMember : Fragment() {
                         RuntimePermission.askPermission(this)
                             .request(Manifest.permission.CAMERA)
                             .onAccepted {
+                                takePicture()
                                 // Capture image logic
                             }
                             .onDenied {
@@ -190,6 +195,7 @@ class FragmentAddMember : Fragment() {
                         RuntimePermission.askPermission(this)
                             .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                             .onAccepted {
+                                takeFromGallery()
                                 // Choose image logic
                             }
                             .onDenied {
@@ -219,8 +225,32 @@ class FragmentAddMember : Fragment() {
 
     private fun takePicture(){
         val takePicIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT,captureImage?.setImageUri())
+        takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT,captureImage?.setimgUri())
+        takePicIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        startActivityForResult(takePicIntent,REQUEST_CAMERA)
     }
 
+    private fun takeFromGallery(){
+        val intent = Intent()
+        intent.type = "image/jpg"
+        intent.action = Intent.ACTION_PICK
+        startActivityForResult(intent,REQUEST_GALLERY)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK){
+            captureImage(captureImage?.getRightAngleImage(captureImage?.imagePath).toString())
+
+        }else if(resultCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK){
+            captureImage(captureImage?.getRightAngleImage(captureImage?.getPath(data?.data,context)).toString())
+
+        }
+    }
+
+    private fun captureImage(path:String){
+        Log.d("FragmentAdd","imagePath : $path")
+    }
 }
 
