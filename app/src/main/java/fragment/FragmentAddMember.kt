@@ -1,6 +1,8 @@
 package com.techplus.gymmanagement.fragment
 
+import android.Manifest
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -20,18 +22,17 @@ import java.util.*
 
 class FragmentAddMember : Fragment() {
 
-    var db: DB? = null
-    var oneMonth:String?=""
-    var threeMonths:String?=""
-    var sixMonths:String?=""
-    var oneYear:String?=""
-    var threeYear:String?=""
+    private var db: DB? = null
+    private var oneMonth: String? = ""
+    private var threeMonths: String? = ""
+    private var sixMonths: String? = ""
+    private var oneYear: String? = ""
+    private var threeYear: String? = ""
     private lateinit var binding: FragmentAddMemberBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentAddMemberBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -41,42 +42,49 @@ class FragmentAddMember : Fragment() {
         db = activity?.let { DB(it) }
 
         val cal = Calendar.getInstance()
-        val dateSetListener = DatePickerDialog.OnDateSetListener { view1, year, monthOfYear, dayOfMonth ->
+        val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             cal.set(Calendar.YEAR, year)
             cal.set(Calendar.MONTH, monthOfYear)
             cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-
-            val myFormat = "dd/MM/yyyy" // specify the format
-            val sdf = SimpleDateFormat(myFormat, Locale.US)
+            val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.US)
             binding.edtJoining.setText(sdf.format(cal.time))
         }
 
         binding.imgPicDate.setOnClickListener {
-            activity?.let { it1 ->
-                DatePickerDialog(it1, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
+            activity?.let {
+                DatePickerDialog(it, dateSetListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show()
             }
         }
 
         binding.spMembership.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val value = parent.getItemAtPosition(position).toString().trim()
-
                 if (value == "Select") {
                     binding.edtExpire.setText("")
-                    calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount)
+                    calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
                 } else {
                     if (binding.edtJoining.text.toString().trim().isNotEmpty()) {
                         when (value) {
-                            "1 Month" -> calculateExpireDate(1, binding.edtExpire)
-                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
-                                "3 Months" -> calculateExpireDate(3, binding.edtExpire)
-                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
-                                "6 Months" -> calculateExpireDate(6, binding.edtExpire)
-                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
-                                "1 Year" -> calculateExpireDate(12, binding.edtExpire)
-                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
-                                "3 Years" -> calculateExpireDate(36, binding.edtExpire)
-                            calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount).toString()
+                            "1 Month" -> {
+                                calculateExpireDate(1, binding.edtExpire)
+                                calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
+                            }
+                            "3 Months" -> {
+                                calculateExpireDate(3, binding.edtExpire)
+                                calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
+                            }
+                            "6 Months" -> {
+                                calculateExpireDate(6, binding.edtExpire)
+                                calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
+                            }
+                            "1 Year" -> {
+                                calculateExpireDate(12, binding.edtExpire)
+                                calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
+                            }
+                            "3 Years" -> {
+                                calculateExpireDate(36, binding.edtExpire)
+                                calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
+                            }
                         }
                     } else {
                         showToast("Select Joining date first")
@@ -86,163 +94,122 @@ class FragmentAddMember : Fragment() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
-                // Not yet implemented
+                // No action needed
             }
         }
 
-        binding.edtDiscount.addTextChangedListener(object : TextWatcher{
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int){
-
+        binding.edtDiscount.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun afterTextChanged(p0: Editable?){
-                if(p0!=null){
-                    calculateTotal(binding.spMembership,binding.edtDiscount,binding.edtAmount)
-                }
-            }
-
         })
 
-        binding.imgPicDate.setOnClickListener(){
-            activity?.let { it1 -> DatePickerDialog(it1,dateSetListener,
-            cal.get(Calendar.YEAR),
-            cal.get(Calendar.MONTH),
-            cal.get(Calendar.DAY_OF_MONTH)).show()}
-        }
-
-        binding.imgTakeImage.setOnClickListener(){
-
+        binding.imgTakeImage.setOnClickListener {
+            getImage()
         }
 
         getFee()
     }
-    private fun getFee(){
-        try {
-                val sqlQuery = "SELECT * FROM FEE WHERE ID = '1'"
-                db?.fireQuery(sqlQuery)?.use{
-                    oneMonth = MyFunction.getValue(it,"ONE_MONTH")
-                    threeMonths = MyFunction.getValue(it,"THREE_MONTH")
-                    sixMonths = MyFunction.getValue(it,"SIX_MONTH")
-                    oneYear = MyFunction.getValue(it,"ONE_YEAR")
-                    threeYear = MyFunction.getValue(it,"THREE_YEAR")
-                }
 
-        }catch (e:Exception){
+    private fun getFee() {
+        try {
+            val sqlQuery = "SELECT * FROM FEE WHERE ID = '1'"
+            db?.fireQuery(sqlQuery)?.use {
+                oneMonth = MyFunction.getValue(it, "ONE_MONTH")
+                threeMonths = MyFunction.getValue(it, "THREE_MONTH")
+                sixMonths = MyFunction.getValue(it, "SIX_MONTH")
+                oneYear = MyFunction.getValue(it, "ONE_YEAR")
+                threeYear = MyFunction.getValue(it, "THREE_YEAR")
+            }
+        } catch (e: Exception) {
             e.printStackTrace()
         }
     }
-    private fun calculateTotal(spMember: Spinner, edtDis:EditText, edtAmt:EditText){
+
+    private fun calculateTotal(spMember: Spinner, edtDis: EditText, edtAmt: EditText) {
         val month = spMember.selectedItem.toString().trim()
-        var discount = edtDis.text.toString().trim()
-        if(edtDis.text.toString().toString().isEmpty()){
-            discount = "0"
+        var discount = edtDis.text.toString().trim().ifEmpty { "0" }
+        val fee = when (month) {
+            "1 Month" -> oneMonth
+            "3 Months" -> threeMonths
+            "6 Months" -> sixMonths
+            "1 Year" -> oneYear
+            "3 Years" -> threeYear
+            else -> null
         }
 
-        if(month =="Select"){
+        if (fee != null && fee.isNotEmpty()) {
+            val discountAmount = (fee.toDouble() * discount.toDouble()) / 100
+            val total = fee.toDouble() - discountAmount
+            edtAmt.setText(total.toString())
+        } else {
             edtAmt.setText("")
-        }else if(month =="1 Month"){
-            if(discount.trim().isEmpty()){
-                discount = "0"
-            }
-            if(oneMonth!!.trim().isNotEmpty()){
-                val discountAmount = ((oneMonth!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
-                val total = oneMonth!!.toDouble() - discountAmount  // Minus discount amount from main amount
-                edtAmt.setText(total.toString())
-
-            }
-            
-        }else if(month =="3 Months"){
-
-            if(discount.trim().isEmpty()){
-                discount = "0"
-            }
-            if(threeMonths!!.trim().isNotEmpty()){
-                val discountAmount = ((threeMonths!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
-                val total = threeMonths!!.toDouble() - discountAmount  // Minus discount amount from main amount
-                edtAmt.setText(total.toString())
-
-            }
-
-        }else if(month =="6 Months"){
-
-            if(discount.trim().isEmpty()){
-                discount = "0"
-            }
-            if(sixMonths!!.trim().isNotEmpty()){
-                val discountAmount = ((sixMonths!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
-                val total = sixMonths!!.toDouble() - discountAmount  // Minus discount amount from main amount
-                edtAmt.setText(total.toString())
-
-            }
-
-        }else if(month =="1 Year"){
-
-            if(discount.trim().isEmpty()){
-                discount = "0"
-            }
-            if(oneYear!!.trim().isNotEmpty()){
-                val discountAmount = ((oneYear!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
-                val total = oneYear!!.toDouble() - discountAmount  // Minus discount amount from main amount
-                edtAmt.setText(total.toString())
-
-            }
-
-        }else if(month =="3 Years"){
-
-            if(discount.trim().isEmpty()){
-                discount = "0"
-            }
-            if(threeYear!!.trim().isNotEmpty()){
-                val discountAmount = ((threeYear!!.toDouble() * discount.toDouble())/100) //finding out thediscount amount
-                val total = threeYear!!.toDouble() - discountAmount  // Minus discount amount from main amount
-                edtAmt.setText(total.toString())
-
-            }
-
         }
     }
-
 
     private fun calculateExpireDate(month: Int, edtExpiry: EditText) {
         val dtStart = binding.edtJoining.text.toString().trim()
         if (dtStart.isNotEmpty()) {
             val format = SimpleDateFormat("dd/MM/yyyy", Locale.US)
-            val date1 = format.parse(dtStart)
-            val cal = Calendar.getInstance()
-            cal.time = date1
+            val date = format.parse(dtStart)
+            val cal = Calendar.getInstance().apply { time = date }
             cal.add(Calendar.MONTH, month)
-
-            val myFormat = "dd/MM/yyyy"
-            val sdf = SimpleDateFormat(myFormat, Locale.US)
-            edtExpiry.setText(sdf.format(cal.time))
+            edtExpiry.setText(SimpleDateFormat("dd/MM/yyyy", Locale.US).format(cal.time))
         }
     }
 
-    private fun showToast(value: String) {
-        Toast.makeText(activity, value, Toast.LENGTH_LONG).show()
+    private fun showToast(message: String) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun getImage(){
-        val Items:Array<CharSequence>
-        try {
+    private fun getImage() {
+        val items = arrayOf("Take Photo", "Choose Image", "Cancel")
 
-            val items = arrayOf("Take Photo", "Chosse Image", "Cancel")
+        try {
             val builder = android.app.AlertDialog.Builder(activity)
             builder.setTitle("Select Image")
-            builder.setItems(items),DialogInterface.OnClickListener{dialogInterface. i ->
-
-                if (items[i] == "Take Photo"){
+            builder.setItems(items) { dialogInterface, i ->
+                when (items[i]) {
+                    "Take Photo" -> {
+                        RuntimePermission.askPermission(this)
+                            .request(Manifest.permission.CAMERA)
+                            .onAccepted {
+                                // Capture image logic
+                            }
+                            .onDenied {
+                                showPermissionAlert()
+                            }
+                    }
+                    "Choose Image" -> {
+                        RuntimePermission.askPermission(this)
+                            .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            .onAccepted {
+                                // Choose image logic
+                            }
+                            .onDenied {
+                                showPermissionAlert()
+                            }
+                    }
+                    "Cancel" -> dialogInterface.dismiss()
                 }
-
-
             }
-
-        }catch (e:Exception){
+            builder.show()
+        } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    private fun showPermissionAlert() {
+        android.app.AlertDialog.Builder(activity)
+            .setMessage("Please accept our permission to proceed")
+            .setPositiveButton("Yes") { _, _ ->
+                // Handle re-request of permission if necessary
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
     }
 }
