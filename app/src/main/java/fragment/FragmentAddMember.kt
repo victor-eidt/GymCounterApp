@@ -36,6 +36,8 @@ class FragmentAddMember : Fragment() {
     private var captureImage:CaptureImage?=null
     private val REQUEST_CAMERA =1234
     private val REQUEST_GALLERY = 5464
+    private var actualImagePath = ""
+    private var gender = "Male"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -113,6 +115,17 @@ class FragmentAddMember : Fragment() {
                 calculateTotal(binding.spMembership, binding.edtDiscount, binding.edtAmount)
             }
         })
+
+        binding.radioGroup.setOnClickListener{radioGroup,i ->
+            when (id){
+                R.id.rdMale ->{
+                    gender = "Malw"
+
+                }
+                R.id.rdFeMale ->{
+
+            }
+        }
 
         binding.imgTakeImage.setOnClickListener {
             getImage()
@@ -251,6 +264,19 @@ class FragmentAddMember : Fragment() {
 
     private fun captureImage(path:String){
         Log.d("FragmentAdd","imagePath : $path")
+        getImagePath(captureImage?.decodeFile(Path))
+    }
+
+    private fun getImagePath(bitmap:Bitmap?){
+        val tempUri:Uri? = captureImage?.getImageUri(activity,bitmap)
+        actualImagePath = captureImage?.getRealPathFromURI(tempUri,activity).toString()
+        Log.d("FragmentAdd","ActualImagePath : $ActualImagePath")
+
+        activity?.let {
+            Glide.with(it)
+            .load(actualImagePath)
+            .into(binding.imgPic)
+        }
     }
 }
 
