@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.DatePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
@@ -17,6 +18,7 @@ import androidx.fragment.app.Fragment
 import com.example.myapplication.databinding.FragmentAddMemberBinding
 import com.example.myapplication.global.DB
 import com.example.myapplication.global.MyFunction
+import com.techplus.mypracticeapp.activity.CaptureImage
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,6 +31,7 @@ class FragmentAddMember : Fragment() {
     private var oneYear: String? = ""
     private var threeYear: String? = ""
     private lateinit var binding: FragmentAddMemberBinding
+    private var captureImage:CaptureImage?=null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -40,6 +43,7 @@ class FragmentAddMember : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         db = activity?.let { DB(it) }
+        captureImage = CaptureImage(activity)
 
         val cal = Calendar.getInstance()
         val dateSetListener = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
@@ -212,4 +216,11 @@ class FragmentAddMember : Fragment() {
             }
             .show()
     }
+
+    private fun takePicture(){
+        val takePicIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        takePicIntent.putExtra(MediaStore.EXTRA_OUTPUT,captureImage?.setImageUri())
+    }
+
 }
+
