@@ -1,16 +1,74 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fragment.FragmentAddMember">
+    android:focusable="false"
+    android:focusableInTouchMode="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/layoutStatus"
+        android:layout_marginTop="5dp"
+        android:gravity="center">
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/rdGroupMember"
+            android:layout_marginStart="10dp"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rdActiveMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Active Member"
+                android:textSize="15sp" />
+
+            <RadioButton
+                android:id="@+id/rdInactiveMember"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Inactive Member"
+                android:textSize="15sp" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        android:id="@+id/view"
+        android:layout_marginTop="-4dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerViewMember"
+        android:layout_below="@id/view"
+        android:layout_margin="5dp"
+        android:clipToPadding="false"
+        android:visibility="gone"
+        android:paddingBottom="60dp" />
+
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="All Member"/>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/txtAllMemberNDF"
+        android:text="Nenhum dado encontrado"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/red" />
 
-
-
+    <ImageView
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_add_member"
+        android:id="@+id/imgAddMember"
+        android:layout_margin="15dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
 </RelativeLayout>

@@ -1,8 +1,10 @@
 package com.example.myapplication.global
 
+import android.annotation.SuppressLint
 import android.database.Cursor
 import android.util.Log
 import java.lang.Exception
+import java.text.SimpleDateFormat
 
 class MyFunction {
 
@@ -22,6 +24,34 @@ class MyFunction {
             }
 
             return value
+        }
+    @SuppressLint("SimpleDateFormat")
+    fun returnSQLDateFormat(date: String): String {
+        try {
+            if (date.trim().isNotEmpty()) {
+                val dateFormat1 = SimpleDateFormat("dd/MM/yyyy")
+                val firstDate = dateFormat1.parse(date)
+                val dateFormat2 = SimpleDateFormat("yyyy-MM-dd")
+                return dateFormat2.format(firstDate)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+        @SuppressLint("SimpleDateFormat")
+        fun returnUserDateFormat(date: String): String {
+            try {
+                if (date.trim().isNotEmpty()) {
+                    val dateFormat1 = SimpleDateFormat("dd/MM/yyyy")
+                    val firstDate = dateFormat1.parse(date)
+                    val dateFormat2 = SimpleDateFormat("yyyy-MM-dd")
+                    return dateFormat2.format(firstDate)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+            return ""
         }
     }
 }

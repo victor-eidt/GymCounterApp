@@ -20,7 +20,6 @@ class SplashScreenActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // Configure a delay para a tela de splash
         mDelayHandler = Handler(Looper.getMainLooper())
         mDelayHandler?.postDelayed({
             navigateToNextScreen()

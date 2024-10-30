@@ -56,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="First Name"
+                    android:hint="Primeiro Nome"
                     android:inputType="text|textCapSentences"
                     android:textColor="@color/black"
                     android:textSize="15sp"
@@ -67,7 +67,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="Last Name"
+                    android:hint="Sobrenome"
                     android:inputType="text|textCapSentences"
                     android:textColor="@color/black"
                     android:textSize="15sp"
@@ -81,7 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Gender :"
+                        android:text="Gênero :"
                         android:textSize="16sp"
                         android:textColor="@color/black"
                         android:layout_gravity="center"
@@ -93,14 +93,13 @@
                         android:orientation="horizontal"
                         android:layout_marginStart="10dp"
                         android:layout_gravity="center"
-                        android:id="@+id/radioGroup"
-                        android:orientation="horizontal">
+                        android:id="@+id/radioGroup">
 
                         <RadioButton
                             android:id="@+id/rdMale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Male"
+                            android:text="Homem"
                             android:textSize="15sp"
                             android:checked="true"
                             tools:ignore="HardcodedText" />
@@ -109,7 +108,7 @@
                             android:id="@+id/rdFemale"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Female"
+                            android:text="Mulher"
                             android:textSize="15sp"
                             android:layout_marginStart="10dp"
                             tools:ignore="HardcodedText" />
@@ -122,7 +121,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="Age"
+                    android:hint="Idade"
                     android:inputType="number"
                     android:maxLength="2"
                     android:textColor="@color/black"
@@ -134,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="Weight"
+                    android:hint="Peso"
                     android:inputType="numberDecimal"
                     android:maxLength="5"
                     android:textColor="@color/black"
@@ -146,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="Mobile"
+                    android:hint="Celular"
                     android:inputType="number"
                     android:maxLength="10"
                     android:textColor="@color/black"
@@ -158,7 +157,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:hint="Address"
+                    android:hint="Endereço"
                     android:maxLength="100"
                     android:textColor="@color/black"
                     android:textSize="15sp"
@@ -189,7 +188,6 @@
                         android:src="@drawable/ic_calendar"
                         android:id="@+id/imgPicDate"
                         tools:ignore="ContentDescription" />
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -227,34 +225,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Expire On : "
-                        android:textSize="16sp"
-                        android:layout_weight="0.7"
-                        android:textColor="@color/black"
-                        tools:ignore="HardcodedText" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:inputType="date"
-                        android:enabled="false"
-                        android:textSize="15sp"
-                        android:textColor="@color/black"
-                        android:id="@+id/edtExpire"
-                        tools:ignore="Autofill,LabelFor" />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Discount (%) : "
+                        android:text="Desconto (%) : "
                         android:textSize="16sp"
                         android:layout_weight="0.7"
                         android:textColor="@color/black"
@@ -299,7 +270,6 @@
                         android:gravity="end" />
                 </LinearLayout>
 
-
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
@@ -309,6 +279,11 @@
                     android:layout_marginTop="10dp"
                     android:id="@+id/btnAddMemberSave"
                     android:textAllCaps="false"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewMember"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

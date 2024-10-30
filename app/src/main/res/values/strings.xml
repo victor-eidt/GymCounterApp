@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Gerenciar Academia</string>
     <string name="home">Início</string>
     <string name="add_member">Adicionar Membro</string>
     <string name="fee_pending">Taxa pendente</string>
@@ -23,7 +23,7 @@
     <string name="_3_years">3 Anos</string>
 
     <string-array name="membership">
-        <item>Select</item>
+        <item>Selecionar</item>
         <item>1 Mês</item>
         <item>3 Meses</item>
         <item>6 Meses</item>

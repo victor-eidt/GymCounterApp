@@ -68,14 +68,14 @@ class LoginActivity : AppCompatActivity() {
             val userName = edtUserName?.text.toString().trim()
             val password = edtPassWord?.text.toString().trim()
 
-            // Adicionando logs para verificar os valores
+
             Log.d("LoginActivity", "Tentando login com: $userName / $password")
 
-            // Removendo a condição de ID e ajustando a consulta
+
             val sqlQuery =
                 "SELECT * FROM ADMIN WHERE USER_NAME='$userName' AND PASSWORD='$password'"
 
-            // Adicionando um log para verificar a query
+
             Log.d("LoginActivity", "Query SQL: $sqlQuery")
 
             db?.fireQuery(sqlQuery)?.use { cursor ->
